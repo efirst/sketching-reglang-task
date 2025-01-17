@@ -1,0 +1,1 @@
+{"file":"/workspaces/sketching-reglang-task/Task.lean","time":1737135795973,"baseTime":1737133449921,"changes":[{"range":{"start":{"line":152,"character":2},"end":{"line":152,"character":34}},"text":"\n  cases s\n  case nil => apply accepts.starEmpty\n  case cons hd tl => sorry","rangeOffset":3577,"rangeLength":32}]}

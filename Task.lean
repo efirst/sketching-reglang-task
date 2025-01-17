@@ -72,10 +72,13 @@ def reverse_lang (l : Language) := λ (s : String) => ∃ s', s.reverse = s' ∧
 
 -- PART 1 : Examples of Regular Expressions
 theorem ex1 : accepts (c(0) <|> c(1)) [c(1)] := by
-  sorry
+  apply accepts.unionRight
+  apply accepts.char
 
 theorem ex2 : accepts (c(0) <·> c(1)) ([c(0)] ++ [c(1)]) := by
-  sorry
+  apply accepts.concat
+  · apply accepts.char
+  · apply accepts.char
 
 theorem ex3 : accepts (c(1)*) [] := by
   sorry
@@ -86,13 +89,19 @@ theorem ex4 : accepts (c(1)*) ([c(1)] ++ ([c(1)] ++ [])) := by
 
 -- PART 2 : Warm up of `accepts`
 theorem cons_app : forall (a : α) (l : List α), a :: l = [a] ++ l := by
-  sorry
+  intros a l
+  rfl
 
 theorem accepts_concat : ∀ r₁ r₂ s₁ s₂, accepts r₁ s₁ → accepts r₂ s₂ → accepts (r₁ <·> r₂) (s₁ ++ s₂) := by
-  sorry
+  intros r₁ r₂ s₁ s₂ h₁ h₂
+  apply accepts.concat
+  · exact h₁
+  · exact h₂
 
 theorem accepts_unionLeft : ∀ r₁ r₂ s, accepts r₁ s → accepts (r₁ <|> r₂) s := by
-  sorry
+  intros r₁ r₂ s h
+  apply accepts.unionLeft
+  exact h
 
 theorem accepts_star_empty : ∀ r, accepts (r*) [] := by
   sorry
@@ -101,24 +110,52 @@ theorem accepts_char : ∀ (c : Char) s, accepts c s → s = [c] := by
   sorry
 
 theorem rejects_emp : ∀ s, ¬ accepts ∅ s := by
-  sorry
+  intros s
+  intro h
+  cases h
 
 theorem accepts_not_emp : ∀ r, (∃ s, accepts r s) → r ≠ ∅ := by
   sorry
 
 theorem empty_regular : is_regular empty := by
-  sorry
+  exists ∅
+  intro s
+  apply Iff.intro
+  · intro h
+    cases h
+  · intro h
+    cases h
 
 theorem star_r : ∀ r s, accepts r s → accepts (r*) s := by
+  intros r s h
+  cases h
+  case eps => apply accepts.starEmpty
+  case char => sorry
   sorry
 
 theorem union_comm : ∀ r₁ r₂ s, accepts (r₁ <|> r₂) s ↔ accepts (r₂ <|> r₁) s := by
-  sorry
-
+  intros r₁ r₂ s
+  apply Iff.intro
+  case mp =>
+    intro h
+    cases h
+    case unionLeft h₁ => apply accepts.unionRight; exact h₁
+    case unionRight h₂ => apply accepts.unionLeft; exact h₂
+  case mpr =>
+    intro h
+    cases h
+    case unionLeft h₁ => apply accepts.unionRight; exact h₁
+    case unionRight h₂ => apply accepts.unionLeft; exact h₂
 
 -- PART 3 : Regular Languages (through regular expressions)
 theorem accepts_exp_all : ∀ s, accepts exp_all s := by
-  sorry
+  intros s
+  induction s with
+  | nil => apply accepts.starEmpty
+  | cons c cs ih =>
+    cases c
+    case z => sorry
+    case o => sorry
 
 theorem all_regular : is_regular all := by
   sorry

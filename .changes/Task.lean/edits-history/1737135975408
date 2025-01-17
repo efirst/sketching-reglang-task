@@ -1,0 +1,1 @@
+{"file":"/workspaces/sketching-reglang-task/Task.lean","time":1737135975408,"baseTime":1737133449921,"changes":[{"range":{"start":{"line":152,"character":2},"end":{"line":152,"character":34}},"text":"induction s with\n  | nil => apply accepts.starEmpty\n  | cons c cs ih =>\n    cases c\n    case z => sorry\n    sorry","rangeOffset":3577,"rangeLength":32}]}
